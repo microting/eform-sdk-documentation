@@ -200,7 +200,7 @@
       <script src="javascripts/all.js"></script>
   </head>
 
-  <body class="index" data-languages="[&quot;C#&quot;]">
+  <body class="index" data-languages="[&quot;csharp&quot;,&quot;pascal&quot;]">
     <a href="#" id="nav-button">
       <span>
         NAV
@@ -210,7 +210,8 @@
     <div class="tocify-wrapper">
       <img src="images/logo.png" alt="Logo" />
         <div class="lang-selector">
-              <a href="#" data-language-name="C#">C#</a>
+              <a href="#" data-language-name="csharp">C#</a>
+              <a href="#" data-language-name="pascal">Delphi</a>
         </div>
         <div class="search">
           <input type="text" class="search" id="input-search" placeholder="Search">
@@ -239,7 +240,7 @@
 <blockquote>
 <p>To set up a the db for the first time, use this code:</p>
 </blockquote>
-<pre class="highlight cs tab-csharp"><code><span class="k">using</span> <span class="nn">eFormCore</span><span class="p">;</span>
+<pre class="highlight csharp tab-csharp"><code><span class="k">using</span>  <span class="nn">eFormCore</span><span class="p">;</span>
 
 <span class="k">public</span> <span class="k">void</span> <span class="nf">setupDb</span><span class="p">()</span> <span class="p">{</span>
     <span class="kt">string</span> <span class="n">connectionStr</span> <span class="p">=</span> <span class="s">"some_connection_string_to_db"</span><span class="p">;</span>
@@ -255,6 +256,27 @@
 
     <span class="n">adminTools</span><span class="p">.</span><span class="nf">DbSetup</span><span class="p">(</span><span class="n">token</span><span class="p">);</span>
 <span class="p">}</span>
+
+</code></pre><pre class="highlight pascal tab-pascal"><code><span class="k">uses</span>
+  <span class="n">System</span><span class="p">.</span><span class="n">SysUtils</span><span class="p">,</span> <span class="n">AdminTools</span><span class="p">;</span>
+
+<span class="k">procedure</span> <span class="n">SetupDb</span><span class="p">;</span>
+<span class="k">var</span>
+  <span class="n">connectionStr</span><span class="p">:</span> <span class="k">String</span><span class="p">;</span>
+  <span class="n">token</span><span class="p">:</span> <span class="k">String</span><span class="p">;</span>
+  <span class="n">adminTools</span><span class="p">:</span> <span class="n">TAdminTools</span><span class="p">;</span>
+<span class="k">begin</span>
+   <span class="n">connectionStr</span> <span class="p">:=</span> <span class="s">'some_connection_string_to_db'</span><span class="p">;</span>
+   <span class="n">token</span> <span class="p">:=</span> <span class="s">'token'</span><span class="p">;</span>
+   <span class="n">adminTools</span> <span class="p">:=</span> <span class="nb">nil</span><span class="p">;</span>
+   <span class="k">try</span>
+     <span class="n">adminTools</span> <span class="p">:=</span> <span class="n">TAdminTools</span><span class="p">.</span><span class="n">Create</span><span class="p">(</span><span class="n">connectionStr</span><span class="p">);</span>
+   <span class="k">except</span>
+    <span class="k">on</span> <span class="n">E</span><span class="p">:</span> <span class="n">Exception</span> <span class="k">do</span>
+       <span class="n">adminTools</span> <span class="p">:=</span> <span class="n">TAdminTools</span><span class="p">.</span><span class="n">Create</span><span class="p">(</span><span class="n">connectionStr</span><span class="p">);</span>
+   <span class="k">end</span><span class="p">;</span>
+   <span class="n">adminTools</span><span class="p">.</span><span class="n">DbSetup</span><span class="p">(</span><span class="n">token</span><span class="p">);</span>
+<span class="k">end</span><span class="p">;</span>
 </code></pre>
 <blockquote>
 <p>Make sure to replace <code class="prettyprint">token</code> with your API token.
@@ -325,6 +347,25 @@ DO NOT MODIFY ANY OTHER VALUE IN THE SETTINGS TABLE!
     <span class="p">}</span>
 
 <span class="p">}</span>
+</code></pre><pre class="highlight pascal tab-pascal"><code><span class="k">uses</span>  <span class="n">System</span><span class="p">.</span><span class="n">SysUtils</span><span class="p">,</span> <span class="n">Core</span><span class="p">;</span>
+
+<span class="k">function</span> <span class="n">GetCore</span><span class="p">:</span> <span class="n">TCore</span><span class="p">;</span>
+<span class="k">var</span>
+  <span class="n">connectionStr</span><span class="p">:</span> <span class="k">String</span><span class="p">;</span>
+  <span class="n">core</span><span class="p">:</span> <span class="n">TCore</span><span class="p">;</span>
+<span class="k">begin</span>
+  <span class="n">connectionStr</span> <span class="p">:=</span> <span class="s">'some_connection_string_to_db'</span><span class="p">;</span>
+
+  <span class="n">core</span> <span class="p">:=</span> <span class="n">TCore</span><span class="p">.</span><span class="n">Create</span><span class="p">;</span>
+
+  <span class="k">if</span> <span class="p">(</span><span class="k">not</span> <span class="n">core</span><span class="p">.</span><span class="n">StartSqlOnly</span><span class="p">(</span><span class="n">connectionStr</span><span class="p">))</span> <span class="k">then</span>
+  <span class="k">begin</span>
+    <span class="k">raise</span> <span class="n">Exception</span><span class="p">.</span><span class="n">Create</span><span class="p">(</span><span class="s">'Core is not running'</span><span class="p">);</span>
+  <span class="k">end</span><span class="p">;</span>
+
+
+  <span class="n">result</span> <span class="p">:=</span> <span class="n">core</span><span class="p">;</span>
+<span class="k">end</span><span class="p">;</span>
 </code></pre>
 <blockquote>
 <p>Make sure to replace <code class="prettyprint">some_connection_string_to_db</code> with your MS SQL connection string.</p>
@@ -359,6 +400,24 @@ You must replace <code>token</code> with your personal API key.
     <span class="p">}</span>
 
 <span class="p">}</span>
+</code></pre><pre class="highlight pascal tab-pascal"><code><span class="k">uses</span> <span class="n">System</span><span class="p">.</span><span class="n">SysUtils</span><span class="p">,</span> <span class="n">Core</span><span class="p">;</span>
+
+<span class="k">function</span> <span class="n">GetCore</span><span class="p">:</span> <span class="n">TCore</span><span class="p">;</span>
+<span class="k">var</span>
+  <span class="n">connectionStr</span><span class="p">:</span> <span class="k">String</span><span class="p">;</span>
+  <span class="n">core</span><span class="p">:</span> <span class="n">TCore</span><span class="p">;</span>
+<span class="k">begin</span>
+  <span class="n">connectionStr</span> <span class="p">:=</span> <span class="s">'some_connection_string_to_db'</span><span class="p">;</span>
+
+  <span class="n">core</span> <span class="p">:=</span> <span class="n">TCore</span><span class="p">.</span><span class="n">Create</span><span class="p">;</span>
+
+  <span class="k">if</span> <span class="p">(</span><span class="k">not</span> <span class="n">core</span><span class="p">.</span><span class="n">Start</span><span class="p">(</span><span class="n">connectionStr</span><span class="p">))</span> <span class="k">then</span>
+  <span class="k">begin</span>
+    <span class="k">raise</span> <span class="n">Exception</span><span class="p">.</span><span class="n">Create</span><span class="p">(</span><span class="s">'Core is not running'</span><span class="p">);</span>
+  <span class="k">end</span><span class="p">;</span>
+
+  <span class="n">result</span> <span class="p">:=</span> <span class="n">core</span><span class="p">;</span>
+<span class="k">end</span><span class="p">;</span>
 </code></pre>
 <blockquote>
 <p>Make sure to replace <code class="prettyprint">some_connection_string_to_db</code> with your MS SQL connection string.</p>
@@ -389,6 +448,28 @@ You must replace <code>token</code> with your personal API key.
     <span class="p">}</span>
 <span class="p">}</span>
 
+</code></pre><pre class="highlight pascal tab-pascal"><code><span class="k">uses</span> <span class="n">System</span><span class="p">.</span><span class="n">SysUtils</span><span class="p">,</span> <span class="n">Core</span><span class="p">,</span> <span class="n">MainElement</span><span class="p">;</span>
+
+<span class="k">procedure</span> <span class="n">SaveTemplate</span><span class="p">;</span>
+<span class="k">var</span>
+  <span class="n">core</span><span class="p">:</span> <span class="n">TCore</span><span class="p">;</span>
+  <span class="n">newTemplate</span><span class="p">:</span> <span class="n">TMainElement</span><span class="p">;</span>
+  <span class="n">templateXmlString</span><span class="p">:</span> <span class="k">String</span><span class="p">;</span>
+<span class="k">begin</span>
+  <span class="n">core</span> <span class="p">:=</span> <span class="n">GetCore</span><span class="p">;</span>
+
+  <span class="n">templateXmlString</span> <span class="p">:=</span> <span class="s">'some_template_xml_string'</span><span class="p">;</span>
+
+  <span class="n">newTemplate</span> <span class="p">:=</span> <span class="n">core</span><span class="p">.</span><span class="n">TemplatFromXml</span><span class="p">(</span><span class="n">templateXmlString</span><span class="p">);</span>
+  <span class="n">newTemplate</span> <span class="p">:=</span> <span class="n">core</span><span class="p">.</span><span class="n">TemplateUploadData</span><span class="p">(</span><span class="n">newTemplate</span><span class="p">);</span>
+
+  <span class="k">if</span> <span class="p">(</span><span class="n">core</span><span class="p">.</span><span class="n">TemplateValidation</span><span class="p">(</span><span class="n">newTemplate</span><span class="p">).</span><span class="n">Count</span> <span class="p">=</span> <span class="m">0</span><span class="p">)</span> <span class="k">then</span>
+  <span class="k">begin</span>
+     <span class="n">core</span><span class="p">.</span><span class="n">TemplateCreate</span><span class="p">(</span><span class="n">newTemplate</span><span class="p">);</span>
+  <span class="k">end</span><span class="p">;</span>
+
+<span class="k">end</span><span class="p">;</span>
+
 </code></pre>
 <h2 id="create-a-basic-eform-template-by-objects">Create a basic eForm template by objects</h2>
 
@@ -403,6 +484,16 @@ You must replace <code>token</code> with your personal API key.
     <span class="k">return</span> <span class="n">core</span><span class="p">.</span><span class="nf">TemplateItemReadAll</span><span class="p">(</span><span class="k">false</span><span class="p">);</span>
 <span class="p">}</span>
 
+</code></pre><pre class="highlight pascal tab-pascal"><code><span class="k">uses</span> <span class="n">System</span><span class="p">.</span><span class="n">SysUtils</span><span class="p">,</span> <span class="n">Generics</span><span class="p">.</span><span class="n">Collections</span><span class="p">,</span> <span class="n">Core</span><span class="p">,</span> <span class="n">Classes</span><span class="p">;</span>
+
+<span class="k">function</span> <span class="n">ListTemplates</span><span class="p">:</span> <span class="n">TObjectList</span><span class="p">&lt;</span><span class="n">TTemplate_Dto</span><span class="p">&gt;;</span>
+<span class="k">var</span>
+  <span class="n">core</span><span class="p">:</span> <span class="n">TCore</span><span class="p">;</span>
+<span class="k">begin</span>
+  <span class="n">core</span> <span class="p">:=</span> <span class="n">GetCore</span><span class="p">;</span>
+
+  <span class="n">result</span> <span class="p">:=</span> <span class="n">core</span><span class="p">.</span><span class="n">TemplateItemReadAll</span><span class="p">(</span><span class="nb">false</span><span class="p">);</span>
+<span class="k">end</span><span class="p">;</span>
 </code></pre>
 <h2 id="deleting-an-eform-template">Deleting an eForm template</h2>
 <pre class="highlight cs tab-csharp"><code><span class="k">using</span> <span class="nn">eFormCore</span><span class="p">;</span>
@@ -416,6 +507,19 @@ You must replace <code>token</code> with your personal API key.
     <span class="k">else</span>
         <span class="k">return</span> <span class="k">false</span><span class="p">;</span>
 <span class="p">}</span>
+</code></pre><pre class="highlight pascal tab-pascal"><code><span class="k">uses</span> <span class="n">System</span><span class="p">.</span><span class="n">SysUtils</span><span class="p">,</span> <span class="n">Core</span><span class="p">;</span>
+
+<span class="k">function</span> <span class="n">DeleteTemplate</span><span class="p">(</span><span class="n">id</span><span class="p">:</span> <span class="kt">integer</span><span class="p">):</span> <span class="kt">boolean</span><span class="p">;</span>
+<span class="k">var</span>
+  <span class="n">core</span><span class="p">:</span> <span class="n">TCore</span><span class="p">;</span>
+<span class="k">begin</span>
+  <span class="n">core</span> <span class="p">:=</span> <span class="n">GetCore</span><span class="p">;</span>
+
+  <span class="k">if</span> <span class="p">(</span><span class="n">core</span><span class="p">.</span><span class="n">TemplateDelete</span><span class="p">(</span><span class="n">id</span><span class="p">))</span> <span class="k">then</span>
+    <span class="n">result</span> <span class="p">:=</span> <span class="nb">true</span>
+  <span class="k">else</span>
+    <span class="n">result</span> <span class="p">:=</span> <span class="nb">false</span><span class="p">;</span>
+<span class="k">end</span><span class="p">;</span>
 </code></pre>
 <h1 id="deployment-of-eforms">Deployment of eForms</h1>
 
@@ -439,6 +543,32 @@ You must replace <code>token</code> with your personal API key.
     <span class="k">return</span> <span class="n">core</span><span class="p">.</span><span class="nf">CaseCreate</span><span class="p">(</span><span class="n">mainElement</span><span class="p">,</span> <span class="s">""</span><span class="p">,</span> <span class="n">site</span><span class="p">.</span><span class="n">SiteUId</span><span class="p">,</span> <span class="s">""</span><span class="p">);</span>
 
 <span class="p">}</span>
+</code></pre><pre class="highlight pascal tab-pascal"><code><span class="k">uses</span> <span class="n">System</span><span class="p">.</span><span class="n">SysUtils</span><span class="p">,</span> <span class="n">System</span><span class="p">.</span><span class="n">Classes</span><span class="p">,</span> <span class="n">System</span><span class="p">.</span><span class="n">DateUtils</span><span class="p">,</span>
+  <span class="n">Generics</span><span class="p">.</span><span class="n">Collections</span><span class="p">,</span> <span class="n">Core</span><span class="p">,</span> <span class="n">MainElement</span><span class="p">,</span> <span class="n">Classes</span><span class="p">;</span>
+
+<span class="k">function</span> <span class="n">DeployTo</span><span class="p">(</span><span class="n">templateId</span><span class="p">:</span> <span class="kt">integer</span><span class="p">;</span> <span class="n">siteId</span><span class="p">:</span> <span class="kt">integer</span><span class="p">):</span> <span class="n">TStringList</span><span class="p">;</span>
+<span class="k">var</span>
+  <span class="n">core</span><span class="p">:</span> <span class="n">TCore</span><span class="p">;</span>
+  <span class="n">mainElement</span><span class="p">:</span> <span class="n">TMainElement</span><span class="p">;</span>
+  <span class="n">site</span><span class="p">:</span> <span class="n">TSiteName_Dto</span><span class="p">;</span>
+  <span class="n">siteIds</span><span class="p">:</span> <span class="n">TList</span><span class="p">&lt;</span><span class="kt">Integer</span><span class="p">&gt;;</span>
+<span class="k">begin</span>
+  <span class="n">core</span> <span class="p">:=</span> <span class="n">GetCore</span><span class="p">;</span>
+
+  <span class="n">mainElement</span> <span class="p">:=</span> <span class="n">core</span><span class="p">.</span><span class="n">TemplateRead</span><span class="p">(</span><span class="n">templateId</span><span class="p">);</span>
+  <span class="n">mainElement</span><span class="p">.</span><span class="n">Repeated</span> <span class="p">:=</span> <span class="m">0</span><span class="p">;</span>
+  <span class="c1">// We set this right now hardcoded,
+</span>  <span class="c1">// this will let the eForm be deployed until end date or we actively retract it.
+</span>  <span class="n">mainElement</span><span class="p">.</span><span class="n">StartDate</span> <span class="p">:=</span> <span class="n">Date</span><span class="p">;</span>
+  <span class="n">mainElement</span><span class="p">.</span><span class="n">EndDate</span> <span class="p">:=</span> <span class="n">IncYear</span><span class="p">(</span><span class="n">Date</span><span class="p">,</span> <span class="m">10</span><span class="p">);</span>
+
+  <span class="n">site</span> <span class="p">:=</span> <span class="n">core</span><span class="p">.</span><span class="n">Advanced_SiteItemRead</span><span class="p">(</span><span class="n">siteId</span><span class="p">);</span>
+
+  <span class="n">siteIds</span> <span class="p">:=</span> <span class="n">TList</span><span class="p">&lt;</span><span class="kt">Integer</span><span class="p">&gt;.</span><span class="n">Create</span><span class="p">;</span>
+  <span class="n">siteIds</span><span class="p">.</span><span class="n">add</span><span class="p">(</span><span class="n">site</span><span class="p">.</span><span class="n">SiteUId</span><span class="p">);</span>
+
+  <span class="n">result</span> <span class="p">:=</span> <span class="n">core</span><span class="p">.</span><span class="n">CaseCreate</span><span class="p">(</span><span class="n">mainElement</span><span class="p">,</span> <span class="s">''</span><span class="p">,</span> <span class="n">siteIds</span><span class="p">,</span> <span class="s">''</span><span class="p">);</span>
+<span class="k">end</span><span class="p">;</span>
 </code></pre>
 <h2 id="deploying-to-one-or-more-sites">Deploying to one or more sites</h2>
 <pre class="highlight cs tab-csharp"><code><span class="k">using</span> <span class="nn">eFormCore</span><span class="p">;</span>
@@ -456,6 +586,26 @@ You must replace <code>token</code> with your personal API key.
     <span class="n">mainElement</span><span class="p">.</span><span class="n">StartDate</span> <span class="p">=</span> <span class="n">DateTime</span><span class="p">.</span><span class="n">Now</span><span class="p">;</span>
     <span class="k">return</span> <span class="n">core</span><span class="p">.</span><span class="nf">CaseCreate</span><span class="p">(</span><span class="n">mainElement</span><span class="p">,</span> <span class="s">""</span><span class="p">,</span> <span class="n">sitesToBeDeployedTo</span><span class="p">,</span> <span class="s">""</span><span class="p">);</span>
 <span class="p">}</span>
+</code></pre><pre class="highlight pascal tab-pascal"><code><span class="k">uses</span> <span class="n">System</span><span class="p">.</span><span class="n">SysUtils</span><span class="p">,</span> <span class="n">System</span><span class="p">.</span><span class="n">Classes</span><span class="p">,</span> <span class="n">System</span><span class="p">.</span><span class="n">DateUtils</span><span class="p">,</span>
+  <span class="n">Generics</span><span class="p">.</span><span class="n">Collections</span><span class="p">,</span> <span class="n">Core</span><span class="p">,</span> <span class="n">MainElement</span><span class="p">;</span>
+
+<span class="k">function</span> <span class="n">DeployTo</span><span class="p">(</span><span class="n">templateId</span><span class="p">:</span> <span class="kt">Integer</span><span class="p">;</span> <span class="n">sitesToBeDeployedTo</span><span class="p">:</span> <span class="n">TList</span><span class="p">&lt;</span><span class="kt">Integer</span><span class="p">&gt;):</span> <span class="n">TStringList</span><span class="p">;</span>
+<span class="k">var</span>
+  <span class="n">core</span><span class="p">:</span> <span class="n">TCore</span><span class="p">;</span>
+  <span class="n">mainElement</span><span class="p">:</span> <span class="n">TMainElement</span><span class="p">;</span>
+  <span class="n">siteIds</span><span class="p">:</span> <span class="n">TList</span><span class="p">&lt;</span><span class="kt">Integer</span><span class="p">&gt;;</span>
+<span class="k">begin</span>
+  <span class="n">core</span> <span class="p">:=</span> <span class="n">GetCore</span><span class="p">;</span>
+
+  <span class="n">mainElement</span> <span class="p">:=</span> <span class="n">core</span><span class="p">.</span><span class="n">TemplateRead</span><span class="p">(</span><span class="n">templateId</span><span class="p">);</span>
+  <span class="n">mainElement</span><span class="p">.</span><span class="n">Repeated</span> <span class="p">:=</span> <span class="m">0</span><span class="p">;</span>
+  <span class="c1">// We set this right now hardcoded,
+</span>  <span class="c1">// this will let the eForm be deployed until end date or we actively retract it.
+</span>  <span class="n">mainElement</span><span class="p">.</span><span class="n">StartDate</span> <span class="p">:=</span> <span class="n">Date</span><span class="p">;</span>
+  <span class="n">mainElement</span><span class="p">.</span><span class="n">EndDate</span> <span class="p">:=</span> <span class="n">IncYear</span><span class="p">(</span><span class="n">Date</span><span class="p">,</span> <span class="m">10</span><span class="p">);</span>
+
+  <span class="n">result</span> <span class="p">:=</span> <span class="n">core</span><span class="p">.</span><span class="n">CaseCreate</span><span class="p">(</span><span class="n">mainElement</span><span class="p">,</span> <span class="s">''</span><span class="p">,</span> <span class="n">sitesToBeDeployedTo</span><span class="p">,</span> <span class="s">''</span><span class="p">);</span>
+<span class="k">end</span><span class="p">;</span>
 </code></pre>
 <blockquote>
 <p><code class="prettyprint">sitesToBeDeployedTo</code> should contain the SiteUId for the sites to deploy to.</p>
@@ -473,6 +623,20 @@ You must replace <code>token</code> with your personal API key.
         <span class="n">core</span><span class="p">.</span><span class="nf">CaseDelete</span><span class="p">(</span><span class="n">templateId</span><span class="p">,</span> <span class="n">siteUId</span><span class="p">);</span>
     <span class="p">}</span>
 <span class="p">}</span>
+</code></pre><pre class="highlight pascal tab-pascal"><code><span class="k">uses</span> <span class="n">System</span><span class="p">.</span><span class="n">SysUtils</span><span class="p">,</span> <span class="n">System</span><span class="p">.</span><span class="n">Classes</span><span class="p">,</span> <span class="n">Generics</span><span class="p">.</span><span class="n">Collections</span><span class="p">,</span> <span class="n">Core</span><span class="p">;</span>
+
+<span class="k">procedure</span> <span class="n">DeployTo</span><span class="p">(</span><span class="n">templateId</span><span class="p">:</span> <span class="kt">integer</span><span class="p">;</span> <span class="n">sitesToBeRetractedFrom</span><span class="p">:</span> <span class="n">TList</span><span class="p">&lt;</span><span class="kt">integer</span><span class="p">&gt;);</span>
+<span class="k">var</span>
+  <span class="n">core</span><span class="p">:</span> <span class="n">TCore</span><span class="p">;</span>
+  <span class="n">siteUID</span><span class="p">:</span> <span class="kt">integer</span><span class="p">;</span>
+<span class="k">begin</span>
+  <span class="n">core</span> <span class="p">:=</span> <span class="n">GetCore</span><span class="p">;</span>
+
+  <span class="k">for</span> <span class="n">siteUID</span> <span class="k">in</span> <span class="n">sitesToBeRetractedFrom</span> <span class="k">do</span>
+  <span class="k">begin</span>
+     <span class="n">core</span><span class="p">.</span><span class="n">CaseDelete</span><span class="p">(</span><span class="n">templateId</span><span class="p">,</span> <span class="n">siteUId</span><span class="p">);</span>
+  <span class="k">end</span><span class="p">;</span>
+<span class="k">end</span><span class="p">;</span>
 </code></pre>
 <blockquote>
 <p><code class="prettyprint">sitesToBeRetractedFrom</code> should contain the SiteUId for the sites to retract from.</p>
@@ -489,6 +653,20 @@ You must replace <code>token</code> with your personal API key.
 
     <span class="k">return</span> <span class="n">templateDto</span><span class="p">.</span><span class="n">DeployedSites</span><span class="p">;</span>    
 <span class="p">}</span>
+</code></pre><pre class="highlight pascal tab-pascal"><code><span class="k">uses</span> <span class="n">System</span><span class="p">.</span><span class="n">SysUtils</span><span class="p">,</span> <span class="n">System</span><span class="p">.</span><span class="n">Classes</span><span class="p">,</span> <span class="n">Generics</span><span class="p">.</span><span class="n">Collections</span><span class="p">,</span>
+  <span class="n">Core</span><span class="p">,</span> <span class="n">Classes</span><span class="p">;</span>
+
+<span class="k">function</span> <span class="n">ListDeployedSites</span><span class="p">(</span><span class="n">templateId</span><span class="p">:</span> <span class="kt">integer</span><span class="p">)</span> <span class="p">:</span> <span class="n">TObjectList</span><span class="p">&lt;</span><span class="n">TSiteName_Dto</span><span class="p">&gt;;</span>
+<span class="k">var</span>
+  <span class="n">core</span><span class="p">:</span> <span class="n">TCore</span><span class="p">;</span>
+  <span class="n">templateDto</span><span class="p">:</span> <span class="n">TTemplate_Dto</span><span class="p">;</span>
+<span class="k">begin</span>
+  <span class="n">core</span> <span class="p">:=</span> <span class="n">GetCore</span><span class="p">;</span>
+
+  <span class="n">templateDto</span> <span class="p">:=</span> <span class="n">core</span><span class="p">.</span><span class="n">TemplateItemRead</span><span class="p">(</span><span class="n">templateId</span><span class="p">);</span>
+
+  <span class="n">result</span> <span class="p">:=</span> <span class="n">templateDto</span><span class="p">.</span><span class="n">DeployedSites</span><span class="p">;</span>
+<span class="k">end</span><span class="p">;</span>
 </code></pre>
 <h2 id="setting-display-index-after-deployment">Setting display index after deployment</h2>
 <pre class="highlight cs tab-csharp"><code><span class="k">using</span> <span class="nn">eFormCore</span><span class="p">;</span>             
@@ -509,6 +687,24 @@ You must replace <code>token</code> with your personal API key.
     <span class="p">}</span>
 
 <span class="p">}</span>
+</code></pre><pre class="highlight pascal tab-pascal"><code><span class="k">uses</span> <span class="n">System</span><span class="p">.</span><span class="n">SysUtils</span><span class="p">,</span> <span class="n">System</span><span class="p">.</span><span class="n">Classes</span><span class="p">,</span> <span class="n">Generics</span><span class="p">.</span><span class="n">Collections</span><span class="p">,</span>
+  <span class="n">Core</span><span class="p">,</span> <span class="n">Classes</span><span class="p">;</span>
+
+<span class="k">procedure</span> <span class="n">SetDisplayIndexForTemplate</span><span class="p">(</span><span class="n">templateId</span><span class="p">:</span> <span class="kt">integer</span><span class="p">;</span> <span class="n">displayIndex</span><span class="p">:</span> <span class="kt">integer</span><span class="p">);</span>
+<span class="k">var</span>
+  <span class="n">core</span><span class="p">:</span> <span class="n">TCore</span><span class="p">;</span>
+  <span class="n">templateDto</span><span class="p">:</span> <span class="n">TTemplate_Dto</span><span class="p">;</span>
+  <span class="n">site</span><span class="p">:</span> <span class="n">TSiteName_Dto</span><span class="p">;</span>
+<span class="k">begin</span>
+  <span class="n">core</span> <span class="p">:=</span> <span class="n">GetCore</span><span class="p">;</span>
+
+  <span class="n">templateDto</span> <span class="p">:=</span> <span class="n">core</span><span class="p">.</span><span class="n">TemplateItemRead</span><span class="p">(</span><span class="n">templateId</span><span class="p">);</span>
+  <span class="k">if</span> <span class="p">(</span><span class="n">core</span><span class="p">.</span><span class="n">Advanced_TemplateDisplayIndexChangeDb</span><span class="p">(</span><span class="n">templateId</span><span class="p">,</span> <span class="n">displayIndex</span><span class="p">))</span> <span class="k">then</span>
+  <span class="k">begin</span>
+      <span class="k">for</span> <span class="n">site</span> <span class="k">in</span> <span class="n">templateDto</span><span class="p">.</span><span class="n">DeployedSites</span> <span class="k">do</span>
+        <span class="n">core</span><span class="p">.</span><span class="n">Advanced_TemplateDisplayIndexChangeServer</span><span class="p">(</span><span class="n">templateId</span><span class="p">,</span> <span class="n">site</span><span class="p">.</span><span class="n">SiteUId</span><span class="p">,</span> <span class="n">displayIndex</span><span class="p">);</span>
+  <span class="k">end</span><span class="p">;</span>
+<span class="k">end</span><span class="p">;</span>
 </code></pre>
 <h1 id="using-results">Using results</h1>
 
@@ -523,6 +719,22 @@ You must replace <code>token</code> with your personal API key.
     <span class="k">return</span> <span class="n">core</span><span class="p">.</span><span class="nf">CaseReadAll</span><span class="p">(</span><span class="n">templateId</span><span class="p">,</span> <span class="k">null</span><span class="p">,</span> <span class="k">null</span><span class="p">);</span>
 
 <span class="p">}</span>
+</code></pre><pre class="highlight pascal tab-pascal"><code><span class="k">uses</span> <span class="n">System</span><span class="p">.</span><span class="n">SysUtils</span><span class="p">,</span> <span class="n">System</span><span class="p">.</span><span class="n">Classes</span><span class="p">,</span> <span class="n">Generics</span><span class="p">.</span><span class="n">Collections</span><span class="p">,</span>
+  <span class="n">Core</span><span class="p">,</span> <span class="n">Classes</span><span class="p">,</span> <span class="n">DateUtils</span><span class="p">;</span>
+
+<span class="k">function</span> <span class="n">ListCasesForTemplate</span><span class="p">(</span><span class="n">templateId</span><span class="p">:</span> <span class="kt">integer</span><span class="p">)</span> <span class="p">:</span> <span class="n">TObjectList</span><span class="p">&lt;</span><span class="n">TCase</span><span class="p">&gt;;</span>
+<span class="k">var</span>
+  <span class="n">core</span><span class="p">:</span> <span class="n">TCore</span><span class="p">;</span>
+  <span class="n">startDate</span><span class="p">:</span> <span class="kt">TDateTime</span><span class="p">;</span>
+  <span class="n">endDate</span><span class="p">:</span> <span class="kt">TDateTime</span><span class="p">;</span>
+<span class="k">begin</span>
+  <span class="n">core</span> <span class="p">:=</span> <span class="n">GetCore</span><span class="p">;</span>
+
+  <span class="n">startDate</span> <span class="p">:=</span> <span class="n">IncYear</span><span class="p">(</span><span class="n">Date</span><span class="p">,</span> <span class="p">-</span><span class="m">10</span><span class="p">);</span>
+  <span class="n">endDate</span> <span class="p">:=</span> <span class="n">IncYear</span><span class="p">(</span><span class="n">Date</span><span class="p">,</span> <span class="m">10</span><span class="p">);</span>
+
+  <span class="n">result</span> <span class="p">:=</span> <span class="n">core</span><span class="p">.</span><span class="n">CaseReadAll</span><span class="p">(</span><span class="n">templateId</span><span class="p">,</span> <span class="n">startDate</span><span class="p">,</span> <span class="n">endDate</span><span class="p">);</span>
+<span class="k">end</span><span class="p">;</span>
 </code></pre>
 <h2 id="getting-cases-pr-template-as-csv">Getting cases pr template as csv</h2>
 <pre class="highlight cs tab-csharp"><code><span class="k">using</span> <span class="nn">eFormCore</span><span class="p">;</span>
@@ -541,6 +753,33 @@ You must replace <code>token</code> with your personal API key.
 
     <span class="k">return</span> <span class="n">file_path</span><span class="p">;</span>
 <span class="p">}</span>
+</code></pre><pre class="highlight pascal tab-pascal"><code><span class="k">uses</span> <span class="n">System</span><span class="p">.</span><span class="n">SysUtils</span><span class="p">,</span> <span class="n">System</span><span class="p">.</span><span class="n">Classes</span><span class="p">,</span> <span class="n">Generics</span><span class="p">.</span><span class="n">Collections</span><span class="p">,</span>
+  <span class="n">Core</span><span class="p">,</span> <span class="n">Classes</span><span class="p">,</span> <span class="n">DateUtils</span><span class="p">;</span>
+
+<span class="k">function</span> <span class="n">Csv</span><span class="p">(</span><span class="n">templateId</span><span class="p">:</span> <span class="kt">integer</span><span class="p">):</span> <span class="k">string</span><span class="p">;</span>
+<span class="k">var</span>
+  <span class="n">core</span><span class="p">:</span> <span class="n">TCore</span><span class="p">;</span>
+  <span class="n">file_path</span><span class="p">:</span> <span class="k">string</span><span class="p">;</span>
+  <span class="n">image_path</span><span class="p">:</span> <span class="k">string</span><span class="p">;</span>
+
+  <span class="n">startDate</span><span class="p">:</span> <span class="kt">TDateTime</span><span class="p">;</span>
+  <span class="n">endDate</span><span class="p">:</span> <span class="kt">TDateTime</span><span class="p">;</span>
+<span class="k">begin</span>
+
+  <span class="n">core</span> <span class="p">:=</span> <span class="n">GetCore</span><span class="p">;</span>
+
+  <span class="n">startDate</span> <span class="p">:=</span> <span class="n">IncYear</span><span class="p">(</span><span class="n">Date</span><span class="p">,</span> <span class="p">-</span><span class="m">10</span><span class="p">);</span>
+  <span class="n">endDate</span> <span class="p">:=</span> <span class="n">IncYear</span><span class="p">(</span><span class="n">Date</span><span class="p">,</span> <span class="m">10</span><span class="p">);</span>
+
+
+  <span class="n">file_path</span> <span class="p">:=</span> <span class="s">'output path with filename where csv will be saved to'</span><span class="p">;</span>
+  <span class="n">image_path</span> <span class="p">:=</span> <span class="s">'location where pictures/signatures are stored'</span><span class="p">;</span>
+
+  <span class="n">core</span><span class="p">.</span><span class="n">CasesToCsv</span><span class="p">(</span><span class="n">templateId</span><span class="p">,</span> <span class="n">startDate</span><span class="p">,</span> <span class="n">endDate</span><span class="p">,</span> <span class="n">file_path</span><span class="p">,</span> <span class="n">image_path</span><span class="p">);</span>
+
+  <span class="n">result</span> <span class="p">:=</span> <span class="n">file_path</span><span class="p">;</span>
+<span class="k">end</span><span class="p">;</span>
+<span class="p">.</span>
 </code></pre>
 <h2 id="getting-a-single-case">Getting a single case</h2>
 <pre class="highlight cs tab-csharp"><code><span class="k">using</span> <span class="nn">eFormCore</span><span class="p">;</span>
@@ -555,6 +794,22 @@ You must replace <code>token</code> with your personal API key.
     <span class="kt">string</span> <span class="n">microting_check_uid</span> <span class="p">=</span> <span class="n">caseDto</span><span class="p">.</span><span class="n">CheckUId</span><span class="p">;</span>
     <span class="k">return</span> <span class="n">core</span><span class="p">.</span><span class="nf">CaseRead</span><span class="p">(</span><span class="n">microting_uuid</span><span class="p">,</span> <span class="n">microting_check_uid</span><span class="p">);</span>
 <span class="p">}</span>
+</code></pre><pre class="highlight pascal tab-pascal"><code><span class="k">uses</span> <span class="n">System</span><span class="p">.</span><span class="n">SysUtils</span><span class="p">,</span> <span class="n">Core</span><span class="p">,</span> <span class="n">Classes</span><span class="p">,</span> <span class="n">MainElement</span><span class="p">;</span>
+
+<span class="k">function</span> <span class="n">Edit</span><span class="p">(</span><span class="n">caseId</span><span class="p">:</span> <span class="kt">integer</span><span class="p">):</span> <span class="n">TReplyElement</span><span class="p">;</span>
+<span class="k">var</span>
+  <span class="n">core</span><span class="p">:</span> <span class="n">TCore</span><span class="p">;</span>
+  <span class="n">caseDto</span><span class="p">:</span> <span class="n">TCase_Dto</span><span class="p">;</span>
+  <span class="n">microting_uuid</span><span class="p">:</span> <span class="k">string</span><span class="p">;</span>
+  <span class="n">microting_check_uid</span><span class="p">:</span> <span class="k">string</span><span class="p">;</span>
+<span class="k">begin</span>
+  <span class="n">core</span> <span class="p">:=</span> <span class="n">TCore</span><span class="p">.</span><span class="n">Create</span><span class="p">;</span>
+
+  <span class="n">caseDto</span> <span class="p">:=</span> <span class="n">core</span><span class="p">.</span><span class="n">CaseReadByCaseId</span><span class="p">(</span><span class="n">caseId</span><span class="p">);</span>
+  <span class="n">microting_uuid</span> <span class="p">:=</span> <span class="n">caseDto</span><span class="p">.</span><span class="n">MicrotingUId</span><span class="p">;</span>
+  <span class="n">microting_check_uid</span> <span class="p">:=</span> <span class="n">caseDto</span><span class="p">.</span><span class="n">CheckUId</span><span class="p">;</span>
+  <span class="n">result</span> <span class="p">:=</span> <span class="n">core</span><span class="p">.</span><span class="n">CaseRead</span><span class="p">(</span><span class="n">microting_uuid</span><span class="p">,</span> <span class="n">microting_check_uid</span><span class="p">);</span>
+<span class="k">end</span><span class="p">;</span>
 </code></pre>
 <h2 id="saving-modified-results-for-a-case">Saving modified results for a case</h2>
 <pre class="highlight cs tab-csharp"><code><span class="k">using</span> <span class="nn">eFormCore</span><span class="p">;</span>
@@ -579,6 +834,7 @@ You must replace <code>token</code> with your personal API key.
 
     <span class="k">return</span> <span class="n">core</span><span class="p">.</span><span class="nf">CaseUpdate</span><span class="p">(</span><span class="n">caseId</span><span class="p">,</span> <span class="n">fieldValueList</span><span class="p">,</span> <span class="n">checkListValueList</span><span class="p">);</span>
 <span class="p">}</span>
+</code></pre><pre class="highlight pascal tab-pascal"><code><span class="n">Delphi</span> <span class="n">code</span> <span class="k">is</span> <span class="n">comming</span> <span class="n">here</span> <span class="n">soon</span><span class="p">.</span>
 </code></pre>
 <p>This asumes that you are saving results coming from a form post.</p>
 
@@ -597,6 +853,7 @@ You must replace <code>token</code> with your personal API key.
     <span class="k">return</span> <span class="n">core</span><span class="p">.</span><span class="nf">SiteReadAll</span><span class="p">(</span><span class="k">false</span><span class="p">);</span>     
 <span class="p">}</span>
 
+</code></pre><pre class="highlight pascal tab-pascal"><code><span class="n">Delphi</span> <span class="n">code</span> <span class="k">is</span> <span class="n">comming</span> <span class="n">here</span> <span class="n">soon</span><span class="p">.</span>
 </code></pre>
 <h2 id="create-a-new-worker">Create a new &ldquo;worker&rdquo;</h2>
 <pre class="highlight cs tab-csharp"><code><span class="k">using</span> <span class="nn">eFormCore</span><span class="p">;</span>
@@ -609,6 +866,7 @@ You must replace <code>token</code> with your personal API key.
     <span class="k">return</span> <span class="n">core</span><span class="p">.</span><span class="nf">SiteCreate</span><span class="p">(</span><span class="n">siteName</span><span class="p">,</span> <span class="n">userFirstName</span><span class="p">,</span> <span class="n">userLastName</span><span class="p">,</span> <span class="k">null</span><span class="p">);</span>
 <span class="p">}</span>
 
+</code></pre><pre class="highlight pascal tab-pascal"><code><span class="n">Delphi</span> <span class="n">code</span> <span class="k">is</span> <span class="n">comming</span> <span class="n">here</span> <span class="n">soon</span><span class="p">.</span>
 </code></pre>
 <aside class="warning">
 DO NOT SET THE userEmail TO ANYTHING OTHER THAN null!
@@ -631,6 +889,7 @@ DO NOT SET THE userEmail TO ANYTHING OTHER THAN null!
     <span class="k">return</span> <span class="n">core</span><span class="p">.</span><span class="nf">SiteUpdate</span><span class="p">(</span><span class="n">id</span><span class="p">,</span> <span class="n">fullName</span><span class="p">,</span> <span class="n">userFirstName</span><span class="p">,</span> <span class="n">userLastName</span><span class="p">,</span> <span class="n">workerDto</span><span class="p">.</span><span class="n">Email</span><span class="p">);</span>       
 <span class="p">}</span>
 
+</code></pre><pre class="highlight pascal tab-pascal"><code><span class="n">Delphi</span> <span class="n">code</span> <span class="k">is</span> <span class="n">comming</span> <span class="n">here</span> <span class="n">soon</span><span class="p">.</span>
 </code></pre>
 <aside class="warning">
 DO NOT SET THE userEmail TO ANYTHING OTHER THAN workerDto.Email!
@@ -647,6 +906,7 @@ DO NOT SET THE userEmail TO ANYTHING OTHER THAN workerDto.Email!
     <span class="k">return</span> <span class="n">core</span><span class="p">.</span><span class="nf">SiteReset</span><span class="p">(</span><span class="n">id</span><span class="p">);</span> <span class="c1">// id of the worker</span>
 <span class="p">}</span>
 
+</code></pre><pre class="highlight pascal tab-pascal"><code><span class="n">Delphi</span> <span class="n">code</span> <span class="k">is</span> <span class="n">comming</span> <span class="n">here</span> <span class="n">soon</span><span class="p">.</span>
 </code></pre>
 <h2 id="deleting-a-worker">Deleting a &ldquo;worker&rdquo;</h2>
 <pre class="highlight cs tab-csharp"><code><span class="k">using</span> <span class="nn">eFormCore</span><span class="p">;</span>
@@ -661,6 +921,7 @@ DO NOT SET THE userEmail TO ANYTHING OTHER THAN workerDto.Email!
     <span class="k">return</span> <span class="n">core</span><span class="p">.</span><span class="nf">SiteDelete</span><span class="p">(</span><span class="n">siteNameDto</span><span class="p">.</span><span class="n">SiteUId</span><span class="p">);</span>    
 <span class="p">}</span>
 
+</code></pre><pre class="highlight pascal tab-pascal"><code><span class="n">Delphi</span> <span class="n">code</span> <span class="k">is</span> <span class="n">comming</span> <span class="n">here</span> <span class="n">soon</span><span class="p">.</span>
 </code></pre>
 <h1 id="adv-events">(Adv)Events</h1>
 
@@ -677,6 +938,7 @@ DO NOT SET THE userEmail TO ANYTHING OTHER THAN workerDto.Email!
     <span class="k">return</span> <span class="n">core</span><span class="p">.</span><span class="nf">Advanced_SiteItemReadAll</span><span class="p">();</span>     
 <span class="p">}</span>
 
+</code></pre><pre class="highlight pascal tab-pascal"><code><span class="n">Delphi</span> <span class="n">code</span> <span class="k">is</span> <span class="n">comming</span> <span class="n">here</span> <span class="n">soon</span><span class="p">.</span>
 </code></pre>
 <h2 id="create-a-site">Create a site</h2>
 <pre class="highlight cs tab-csharp"><code><span class="k">using</span> <span class="nn">eFormCore</span><span class="p">;</span>
@@ -691,6 +953,7 @@ DO NOT SET THE userEmail TO ANYTHING OTHER THAN workerDto.Email!
     <span class="k">return</span> <span class="n">core</span><span class="p">.</span><span class="nf">Advanced_SiteItemDelete</span><span class="p">(</span><span class="n">siteNameDto</span><span class="p">.</span><span class="n">SiteUId</span><span class="p">);</span>    
 <span class="p">}</span>
 
+</code></pre><pre class="highlight pascal tab-pascal"><code><span class="n">Delphi</span> <span class="n">code</span> <span class="k">is</span> <span class="n">comming</span> <span class="n">here</span> <span class="n">soon</span><span class="p">.</span>
 </code></pre>
 <h2 id="update-a-site">Update a site</h2>
 <pre class="highlight cs tab-csharp"><code><span class="k">using</span> <span class="nn">eFormCore</span><span class="p">;</span>
@@ -704,6 +967,7 @@ DO NOT SET THE userEmail TO ANYTHING OTHER THAN workerDto.Email!
     <span class="n">core</span><span class="p">.</span><span class="nf">Advanced_SiteItemUpdate</span><span class="p">((</span><span class="kt">int</span><span class="p">)</span><span class="n">site</span><span class="p">.</span><span class="n">SiteUId</span><span class="p">,</span> <span class="n">siteId</span><span class="p">);</span>   
 <span class="p">}</span>
 
+</code></pre><pre class="highlight pascal tab-pascal"><code><span class="n">Delphi</span> <span class="n">code</span> <span class="k">is</span> <span class="n">comming</span> <span class="n">here</span> <span class="n">soon</span><span class="p">.</span>
 </code></pre>
 <h2 id="delete-a-site">Delete a site</h2>
 <pre class="highlight cs tab-csharp"><code><span class="k">using</span> <span class="nn">eFormCore</span><span class="p">;</span>
@@ -716,6 +980,7 @@ DO NOT SET THE userEmail TO ANYTHING OTHER THAN workerDto.Email!
     <span class="k">return</span> <span class="n">core</span><span class="p">.</span><span class="nf">Advanced_SiteItemDelete</span><span class="p">(</span><span class="n">siteId</span><span class="p">);</span>
 <span class="p">}</span>
 
+</code></pre><pre class="highlight pascal tab-pascal"><code><span class="n">Delphi</span> <span class="n">code</span> <span class="k">is</span> <span class="n">comming</span> <span class="n">here</span> <span class="n">soon</span><span class="p">.</span>
 </code></pre>
 <h1 id="adv-units">(Adv)Units</h1>
 
@@ -730,6 +995,7 @@ DO NOT SET THE userEmail TO ANYTHING OTHER THAN workerDto.Email!
     <span class="k">return</span> <span class="n">core</span><span class="p">.</span><span class="nf">SiteReadAll</span><span class="p">(</span><span class="k">false</span><span class="p">);</span>     
 <span class="p">}</span>
 
+</code></pre><pre class="highlight pascal tab-pascal"><code><span class="n">Delphi</span> <span class="n">code</span> <span class="k">is</span> <span class="n">comming</span> <span class="n">here</span> <span class="n">soon</span><span class="p">.</span>
 </code></pre>
 <h2 id="request-a-new-otp">Request a new OTP</h2>
 
@@ -746,6 +1012,7 @@ DO NOT SET THE userEmail TO ANYTHING OTHER THAN workerDto.Email!
     <span class="k">return</span> <span class="n">core</span><span class="p">.</span><span class="nf">SiteReadAll</span><span class="p">(</span><span class="k">false</span><span class="p">);</span>     
 <span class="p">}</span>
 
+</code></pre><pre class="highlight pascal tab-pascal"><code><span class="n">Delphi</span> <span class="n">code</span> <span class="k">is</span> <span class="n">comming</span> <span class="n">here</span> <span class="n">soon</span><span class="p">.</span>
 </code></pre>
 <h2 id="create-a-worker">Create a worker</h2>
 
@@ -770,6 +1037,7 @@ DO NOT SET THE userEmail TO ANYTHING OTHER THAN workerDto.Email!
     <span class="c1">// We have 100 entries per page.</span>
 <span class="p">}</span>
 
+</code></pre><pre class="highlight pascal tab-pascal"><code><span class="n">Delphi</span> <span class="n">code</span> <span class="k">is</span> <span class="n">comming</span> <span class="n">here</span> <span class="n">soon</span><span class="p">.</span>
 </code></pre>
 <h2 id="creating-a-list">Creating a list</h2>
 <pre class="highlight cs tab-csharp"><code><span class="k">using</span> <span class="nn">eFormCore</span><span class="p">;</span>
@@ -782,6 +1050,7 @@ DO NOT SET THE userEmail TO ANYTHING OTHER THAN workerDto.Email!
     <span class="k">return</span> <span class="n">core</span><span class="p">.</span><span class="nf">EntityGroupCreate</span><span class="p">(</span><span class="s">"EntitySearch"</span><span class="p">,</span> <span class="s">"NameOfMyGroup"</span><span class="p">);</span>    
 <span class="p">}</span>
 
+</code></pre><pre class="highlight pascal tab-pascal"><code><span class="n">Delphi</span> <span class="n">code</span> <span class="k">is</span> <span class="n">comming</span> <span class="n">here</span> <span class="n">soon</span><span class="p">.</span>
 </code></pre>
 <h2 id="adding-items-to-a-list">Adding items to a list</h2>
 <pre class="highlight cs tab-csharp"><code><span class="k">using</span> <span class="nn">eFormCore</span><span class="p">;</span>
@@ -797,6 +1066,7 @@ DO NOT SET THE userEmail TO ANYTHING OTHER THAN workerDto.Email!
     <span class="k">return</span> <span class="n">core</span><span class="p">.</span><span class="nf">EntityGroupUpdate</span><span class="p">(</span><span class="n">eG</span><span class="p">);</span>
 <span class="p">}</span>
 
+</code></pre><pre class="highlight pascal tab-pascal"><code><span class="n">Delphi</span> <span class="n">code</span> <span class="k">is</span> <span class="n">comming</span> <span class="n">here</span> <span class="n">soon</span><span class="p">.</span>
 </code></pre>
 <h2 id="updating-items-in-a-list">Updating items in a list</h2>
 <pre class="highlight cs tab-csharp"><code><span class="k">using</span> <span class="nn">eFormCore</span><span class="p">;</span>
@@ -813,6 +1083,7 @@ DO NOT SET THE userEmail TO ANYTHING OTHER THAN workerDto.Email!
     <span class="k">return</span> <span class="n">core</span><span class="p">.</span><span class="nf">EntityGroupUpdate</span><span class="p">(</span><span class="n">eG</span><span class="p">);</span>
 <span class="p">}</span>
 
+</code></pre><pre class="highlight pascal tab-pascal"><code><span class="n">Delphi</span> <span class="n">code</span> <span class="k">is</span> <span class="n">comming</span> <span class="n">here</span> <span class="n">soon</span><span class="p">.</span>
 </code></pre>
 <h2 id="deleting-items-from-a-list">Deleting items from a list</h2>
 <pre class="highlight cs tab-csharp"><code><span class="k">using</span> <span class="nn">eFormCore</span><span class="p">;</span>
@@ -828,6 +1099,7 @@ DO NOT SET THE userEmail TO ANYTHING OTHER THAN workerDto.Email!
     <span class="k">return</span> <span class="n">core</span><span class="p">.</span><span class="nf">EntityGroupUpdate</span><span class="p">(</span><span class="n">eG</span><span class="p">);</span>
 <span class="p">}</span>
 
+</code></pre><pre class="highlight pascal tab-pascal"><code><span class="n">Delphi</span> <span class="n">code</span> <span class="k">is</span> <span class="n">comming</span> <span class="n">here</span> <span class="n">soon</span><span class="p">.</span>
 </code></pre>
 <h2 id="using-the-list-in-a-eform-template">Using the list in a eForm template</h2>
 
@@ -848,6 +1120,7 @@ DO NOT SET THE userEmail TO ANYTHING OTHER THAN workerDto.Email!
     <span class="c1">// We have 100 entries per page.</span>
 <span class="p">}</span>
 
+</code></pre><pre class="highlight pascal tab-pascal"><code><span class="n">Delphi</span> <span class="n">code</span> <span class="k">is</span> <span class="n">comming</span> <span class="n">here</span> <span class="n">soon</span><span class="p">.</span>
 </code></pre>
 <h2 id="creating-a-list">Creating a list</h2>
 <pre class="highlight cs tab-csharp"><code><span class="k">using</span> <span class="nn">eFormCore</span><span class="p">;</span>
@@ -860,6 +1133,7 @@ DO NOT SET THE userEmail TO ANYTHING OTHER THAN workerDto.Email!
     <span class="k">return</span> <span class="n">core</span><span class="p">.</span><span class="nf">EntityGroupCreate</span><span class="p">(</span><span class="s">"EntitySelect"</span><span class="p">,</span> <span class="s">"NameOfMyGroup"</span><span class="p">);</span>    
 <span class="p">}</span>
 
+</code></pre><pre class="highlight pascal tab-pascal"><code><span class="n">Delphi</span> <span class="n">code</span> <span class="k">is</span> <span class="n">comming</span> <span class="n">here</span> <span class="n">soon</span><span class="p">.</span>
 </code></pre>
 <h2 id="adding-items-to-a-list">Adding items to a list</h2>
 <pre class="highlight cs tab-csharp"><code><span class="k">using</span> <span class="nn">eFormCore</span><span class="p">;</span>
@@ -875,6 +1149,7 @@ DO NOT SET THE userEmail TO ANYTHING OTHER THAN workerDto.Email!
     <span class="k">return</span> <span class="n">core</span><span class="p">.</span><span class="nf">EntityGroupUpdate</span><span class="p">(</span><span class="n">eG</span><span class="p">);</span>
 <span class="p">}</span>
 
+</code></pre><pre class="highlight pascal tab-pascal"><code><span class="n">Delphi</span> <span class="n">code</span> <span class="k">is</span> <span class="n">comming</span> <span class="n">here</span> <span class="n">soon</span><span class="p">.</span>
 </code></pre>
 <h2 id="updating-items-in-a-list">Updating items in a list</h2>
 <pre class="highlight cs tab-csharp"><code><span class="k">using</span> <span class="nn">eFormCore</span><span class="p">;</span>
@@ -891,6 +1166,7 @@ DO NOT SET THE userEmail TO ANYTHING OTHER THAN workerDto.Email!
     <span class="k">return</span> <span class="n">core</span><span class="p">.</span><span class="nf">EntityGroupUpdate</span><span class="p">(</span><span class="n">eG</span><span class="p">);</span>
 <span class="p">}</span>
 
+</code></pre><pre class="highlight pascal tab-pascal"><code><span class="n">Delphi</span> <span class="n">code</span> <span class="k">is</span> <span class="n">comming</span> <span class="n">here</span> <span class="n">soon</span><span class="p">.</span>
 </code></pre>
 <h2 id="deleting-items-from-a-list">Deleting items from a list</h2>
 <pre class="highlight cs tab-csharp"><code><span class="k">using</span> <span class="nn">eFormCore</span><span class="p">;</span>
@@ -906,6 +1182,7 @@ DO NOT SET THE userEmail TO ANYTHING OTHER THAN workerDto.Email!
     <span class="k">return</span> <span class="n">core</span><span class="p">.</span><span class="nf">EntityGroupUpdate</span><span class="p">(</span><span class="n">eG</span><span class="p">);</span>
 <span class="p">}</span>
 
+</code></pre><pre class="highlight pascal tab-pascal"><code><span class="n">Delphi</span> <span class="n">code</span> <span class="k">is</span> <span class="n">comming</span> <span class="n">here</span> <span class="n">soon</span><span class="p">.</span>
 </code></pre>
 <h2 id="using-the-list-in-a-eform-template">Using the list in a eForm template</h2>
 
@@ -968,7 +1245,8 @@ DO NOT SET THE userEmail TO ANYTHING OTHER THAN workerDto.Email!
       </div>
       <div class="dark-box">
           <div class="lang-selector">
-                <a href="#" data-language-name="C#">C#</a>
+                <a href="#" data-language-name="csharp">C#</a>
+                <a href="#" data-language-name="pascal">Delphi</a>
           </div>
       </div>
     </div>
