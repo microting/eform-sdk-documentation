@@ -1,9 +1,9 @@
----
+﻿---
 title: API Reference
 
 language_tabs:
   - csharp: C#
-  - pascal: Delphi
+  - delphi: Delphi
 
 toc_footers:
   - <a href='https://www.microting.com/kontakt/'>Sign Up for a Developer Key</a>
@@ -46,7 +46,7 @@ public void setupDb() {
 
 ```
 
-```pascal
+```delphi
 uses
   System.SysUtils, AdminTools;
 
@@ -127,7 +127,7 @@ public Core getCore()
 }
 ```
 
-```pascal
+```delphi
 uses  System.SysUtils, Core;
 
 function GetCore: TCore;
@@ -183,7 +183,7 @@ public Core getCore()
 }
 ```
 
-```pascal
+```delphi
 uses System.SysUtils, Core;
 
 function GetCore: TCore;
@@ -236,7 +236,7 @@ public void SaveTemplate()
 
 ```
 
-```pascal
+```delphi
 uses System.SysUtils, Core, MainElement;
 
 procedure SaveTemplate;
@@ -278,7 +278,7 @@ public List<Template_Dto> ListTemplates()
 
 ```
 
-```pascal
+```delphi
 uses System.SysUtils, Generics.Collections, Core, Classes;
 
 function ListTemplates: TObjectList<TTemplate_Dto>;
@@ -307,7 +307,7 @@ public bool DeleteTemplate(int id)
 }
 ```
 
-```pascal
+```delphi
 uses System.SysUtils, Core;
 
 function DeleteTemplate(id: integer): boolean;
@@ -350,7 +350,7 @@ public List<string> DeployTo(int templateId, int siteId)
 }
 ```
 
-```pascal
+```delphi
 uses System.SysUtils, System.Classes, System.DateUtils,
   Generics.Collections, Core, MainElement, Classes;
 
@@ -399,7 +399,7 @@ public List<string> DeployTo(int templateId, List<int> sitesToBeDeployedTo)
 }
 ```
 
-```pascal
+```delphi
 uses System.SysUtils, System.Classes, System.DateUtils,
   Generics.Collections, Core, MainElement;
 
@@ -441,7 +441,7 @@ public void DeployTo(int templateId, List<int> sitesToBeRetractedFrom)
 }
 ```     
 
-```pascal
+```delphi
 uses System.SysUtils, System.Classes, Generics.Collections, Core;
 
 procedure DeployTo(templateId: integer; sitesToBeRetractedFrom: TList<integer>);
@@ -475,7 +475,7 @@ public List<SiteName_Dto> ListDeployedSites(int templateId)
 }
 ```
 
-```pascal
+```delphi
 uses System.SysUtils, System.Classes, Generics.Collections,
   Core, Classes;
 
@@ -515,7 +515,7 @@ public void SetDisplayIndexForTemplate(int templateId, int displayIndex)
 }
 ```
 
-```pascal
+```delphi
 uses System.SysUtils, System.Classes, Generics.Collections,
   Core, Classes;
 
@@ -553,7 +553,7 @@ public List<Case> ListCasesForTemplate(int templateId)
 }
 ```
 
-```pascal
+```delphi
 uses System.SysUtils, System.Classes, Generics.Collections,
   Core, Classes, DateUtils;
 
@@ -593,7 +593,7 @@ public String Csv(int templateId)
 }
 ```
 
-```pascal
+```delphi
 uses System.SysUtils, System.Classes, Generics.Collections,
   Core, Classes, DateUtils;
 
@@ -640,7 +640,7 @@ public ReplyElement Edit(int caseId)
 }
 ```
 
-```pascal
+```delphi
 uses System.SysUtils, Core, Classes, MainElement;
 
 function Edit(caseId: integer): TReplyElement;
@@ -686,7 +686,7 @@ public bool Update(int caseId)
 }
 ```
 
-```pascal
+```delphi
 Delphi code is comming here soon.
 ```
 
@@ -711,7 +711,7 @@ public List<Site_Dto> CreateWorker()
 
 ```
 
-```pascal
+```delphi
 Delphi code is comming here soon.
 ```
 
@@ -730,7 +730,7 @@ public Site_Dto CreateWorker()
 
 ```
 
-```pascal
+```delphi
 Delphi code is comming here soon.
 ```
 
@@ -759,7 +759,7 @@ public bool UpdateWorker()
 
 ```
 
-```pascal
+```delphi
 Delphi code is comming here soon.
 ```
 
@@ -782,7 +782,7 @@ public eFormShared.Site_Dto GetOtp()
 
 ```
 
-```pascal
+```delphi
 Delphi code is comming here soon.
 ```
 
@@ -803,7 +803,7 @@ public bool DeleteWorker()
 
 ```
 
-```pascal
+```delphi
 Delphi code is comming here soon.
 ```
 
@@ -826,7 +826,7 @@ public List<SiteName_Dto> ListAllSites()
 
 ```
 
-```pascal
+```delphi
 Delphi code is comming here soon.
 ```
 
@@ -847,7 +847,7 @@ public bool CreateSite()
 
 ```
 
-```pascal
+```delphi
 Delphi code is comming here soon.
 ```
 
@@ -867,7 +867,7 @@ public bool UpdateSite(int siteId, string siteId)
 
 ```
 
-```pascal
+```delphi
 Delphi code is comming here soon.
 ```
 
@@ -886,7 +886,7 @@ public bool DeleteSite(siteId)
 
 ```
 
-```pascal
+```delphi
 Delphi code is comming here soon.
 ```
 
@@ -907,7 +907,7 @@ public List<Site_Dto> CreateWorker()
 
 ```
 
-```pascal
+```delphi
 Delphi code is comming here soon.
 ```
 
@@ -930,7 +930,7 @@ public List<Site_Dto> CreateWorker()
 
 ```
 
-```pascal
+```delphi
 Delphi code is comming here soon.
 ```
 
@@ -961,7 +961,7 @@ public EntityGroupList ListAllEntityGroups()
 
 ```
 
-```pascal
+```delphi
 Delphi code is comming here soon.
 ```
 
@@ -980,7 +980,7 @@ public string ListAllEntityGroups()
 
 ```
 
-```pascal
+```delphi
 Delphi code is comming here soon.
 ```
 
@@ -1002,7 +1002,7 @@ public bool AddItemToEntityGroup()
 
 ```
 
-```pascal
+```delphi
 Delphi code is comming here soon.
 ```
 
@@ -1025,7 +1025,7 @@ public bool UpdateItemInEntityGroup()
 
 ```
 
-```pascal
+```delphi
 Delphi code is comming here soon.
 ```
 
@@ -1047,7 +1047,7 @@ public bool UpdateItemInEntityGroup()
 
 ```
 
-```pascal
+```delphi
 Delphi code is comming here soon.
 ```
 
@@ -1074,7 +1074,7 @@ public EntityGroupList ListAllEntityGroups()
 
 ```
 
-```pascal
+```delphi
 Delphi code is comming here soon.
 ```
 
@@ -1093,7 +1093,7 @@ public string ListAllEntityGroups()
 
 ```
 
-```pascal
+```delphi
 Delphi code is comming here soon.
 ```
 
@@ -1115,7 +1115,7 @@ public bool AddItemToEntityGroup()
 
 ```
 
-```pascal
+```delphi
 Delphi code is comming here soon.
 ```
 
@@ -1138,7 +1138,7 @@ public bool UpdateItemInEntityGroup()
 
 ```
 
-```pascal
+```delphi
 Delphi code is comming here soon.
 ```
 
@@ -1160,7 +1160,7 @@ public bool UpdateItemInEntityGroup()
 
 ```
 
-```pascal
+```delphi
 Delphi code is comming here soon.
 ```
 
